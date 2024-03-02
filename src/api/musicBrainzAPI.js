@@ -1,7 +1,7 @@
 const BASE_URL = "https://musicbrainz.org/ws/2";
 
 const headers = {
-  "User-Agent": "Samples API Client kennedyemeruem@uni.minerva.edu",
+  "User-Agent": "Samples API Client kennedyemeruem@gmail.com",
   Accept: "application/json",
 };
 
@@ -61,7 +61,7 @@ export const fetchRecordingDetails = async (recordingMbid) => {
  * @throws {Error} - If there is an error from the MusicBrainz API or if the fetch operation fails.
  */
 export const searchRecordingsByISRC = async (isrc) => {
-  const url = `${BASE_URL}/isrc/${isrc}?fmt=json`;
+  const url = `${BASE_URL}/isrc/${isrc}?fmt=json&inc=tags`;
 
   try {
     const response = await fetch(url, { headers });
@@ -105,16 +105,17 @@ export const searchSongRelationships = async (mbid) => {
  * @throws {Error} - If there is an error from the MusicBrainz API or during the fetch operation.
  */
 export const searchRecordingsByMBID = async (mbid) => {
-  const url = `${BASE_URL}/recording/${mbid}?fmt=json&inc=genres`;
+  const url = `${BASE_URL}/recording/${mbid}?fmt=json&inc=genres+tags`;
 
   try {
     const response = await fetch(url, { headers });
     if (!response.ok) {
-      throw new Error(`Error from MusicBrainz API: ${response.statusText}`);
+      throw new Error(`Error from MusicBrainz API here: ${response.statusText}`);
     }
     const data = await response.json();
     return data;
   } catch (error) {
+    ("");
     console.error("Failed to fetch recording details:", error);
     throw error;
   }

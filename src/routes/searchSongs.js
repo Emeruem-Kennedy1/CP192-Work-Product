@@ -33,19 +33,22 @@ router.get("/isrc/:isrc", async (req, res) => {
 router.get("/song-related/", async (req, res) => {
   const { title, artist } = req.query;
   try {
-    const recordings = await searchRecordings(title, artist);
+    let recordings = await searchRecordings(title, artist);
+
+    //filter recordings where the score is greater than 90
+    recordings = recordings.filter((recording) => recording.score > 90);
 
     if (recordings.length === 0) {
       return res.status(404).json({ error: "No recordings found" });
     }
 
     const mbids = recordings.map((recording) => recording.id);
+    console.log(mbids);
     const relationshipsPromises = mbids.map((mbid) => {
-      return searchSongRelationships(mbid); // No need for 'await' here
+      return searchSongRelationships(mbid); 
     });
     const songsWithRelationships = await Promise.all(relationshipsPromises);
-    // res.json(songsWithRelationships);
-    // get only relationships that have 'samples naterial' as type and the dirction is forward (song's that the current song samples from)
+    // get only relationships that have 'samples material' as type and the dirction is forward (song's that the current song samples from)
     const relationships = songsWithRelationships
       .map((song, index) => {
         return {
@@ -70,12 +73,12 @@ router.get("/song-related/", async (req, res) => {
         };
       });
 
-    // res.json(relationships);
-
     // for every song, get the tags of the song and add them to the existing relationships object
     const songsWithGenres = await enhanceSongsWithGenres(relationships);
 
-    res.json(songsWithGenres);
+    songsWithGenres.length > 0
+      ? res.json(songsWithGenres)
+      : res.status(404).json({ error: "No relationships found" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
