@@ -6,6 +6,8 @@ import {
   searchRecordingsByMBID,
 } from "../api/musicBrainzAPI.js";
 
+import { enhanceSongsWithGenres } from "../utilities/songSearchUtilities.js";
+
 const router = express.Router();
 
 router.get("/search", async (req, res) => {
@@ -21,7 +23,7 @@ router.get("/search", async (req, res) => {
 router.get("/isrc/:isrc", async (req, res) => {
   const { isrc } = req.params;
   try {
-    const recording = await searchRecordingsByISRC(isrc);
+    const recording = await searchRecordingsByMBID(isrc);
     res.json(recording);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -68,19 +70,12 @@ router.get("/song-related/", async (req, res) => {
         };
       });
 
+    // res.json(relationships);
+
     // for every song, get the tags of the song and add them to the existing relationships object
-    const tagsPromises = relationships.map((song) => {
-      return searchRecordingsByMBID(song.relationships[0].id);
-    });
+    const songsWithGenres = await enhanceSongsWithGenres(relationships);
 
-    const songsWithTags = await Promise.all(tagsPromises);
-    songsWithTags.forEach((song, index) => {
-      relationships[index].genres = song.tags.map((tag) => tag.name);
-    });
-
-    relationships.length === 0
-      ? res.status(404).json({ error: "No relationships found" })
-      : res.json(relationships);
+    res.json(songsWithGenres);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
