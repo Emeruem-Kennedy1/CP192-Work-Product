@@ -36,7 +36,7 @@ router.get("/song-related/", async (req, res) => {
     let recordings = await searchRecordings(title, artist);
 
     //filter recordings where the score is greater than 90
-    recordings = recordings.filter((recording) => recording.score > 90);
+    recordings = recordings.filter((recording) => recording.score > 80);
 
     if (recordings.length === 0) {
       return res.status(404).json({ error: "No recordings found" });

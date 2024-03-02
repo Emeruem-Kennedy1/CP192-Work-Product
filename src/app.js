@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/songs", searchSongs);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Welcome to the Song Sample Search API!");
 });
 
 export default app;
