@@ -36,7 +36,7 @@ router.get("/song-related/", async (req, res) => {
     let recordings = await searchRecordings(title, artist);
 
     //filter recordings where the score is greater than 90
-    recordings = recordings.filter((recording) => recording.score > 70);
+    recordings = recordings.filter((recording) => recording.score > 90);
 
     if (recordings.length === 0) {
       return res.status(404).json({ error: "No recordings found" });
@@ -44,7 +44,7 @@ router.get("/song-related/", async (req, res) => {
 
     const mbids = recordings.map((recording) => recording.id);
     const relationshipsPromises = mbids.map((mbid) => {
-      return searchSongRelationships(mbid); 
+      return searchSongRelationships(mbid);
     });
     const songsWithRelationships = await Promise.all(relationshipsPromises);
     // get only relationships that have 'samples material' as type and the dirction is forward (song's that the current song samples from)

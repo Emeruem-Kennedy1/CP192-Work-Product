@@ -1,7 +1,7 @@
 const BASE_URL = "https://musicbrainz.org/ws/2";
 
 const headers = {
-  "User-Agent": "Samples API Client kennedyemeruem@gmail.com",
+  "User-Agent": "Samples API Client kennedyemeruem123@gmail.com",
   Accept: "application/json",
 };
 
