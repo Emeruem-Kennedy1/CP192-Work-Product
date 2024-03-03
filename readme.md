@@ -3,7 +3,7 @@
 
 ## API Endpoints
 
-Absolutely! Here's the documentation breakdown for your endpoints, tailored for the README:
+base URL: `http://localhost:3000/song`
 
 **Endpoint: `/search`**
 
@@ -51,29 +51,21 @@ Absolutely! Here's the documentation breakdown for your endpoints, tailored for 
 **Example:**
 `/song-related?title=Crazy&artist=Gnarls%20Barkley` 
 
-**Endpoint: `/songs-related`**
+## Getting Started
 
-* **Method:** GET
-* **Purpose:** Finds related songs (sampled songs) for a list of input songs. Also includes genre information.
-* **Parameters:**
-  * `songs`: (array, required):  An array of song objects, where each song object must have:
-      * `title`: Song title.
-      * `artist` :Song artist.
-* **Response:**
-    * **Success (200):**  An array where each element represents the relationships for one input song (same format as `/song-related`).
-    * **Error (500):** JSON object with `error` property describing the error.
+### Prerequisites
 
-**Example:** 
-```
-`/songs-related?songs=[{"title": "One More Time", "artist": "Daft Punk"}, {"title": "Rapper's Delight", "artist": "Sugarhill Gang"}]`
-```
+* Node.js
+* npm
+* Express.js
 
-**Important Notes:**
+### Installing
 
-* These endpoints tap into the MusicBrainz API to provide rich information about recordings and their relationships. 
-* Consider adding rate-limiting or authentication if you plan to use this in a production environment.
-
-Let me know if you'd like any of the explanations modified or want me to expand on specific details! 
+1. Clone the repository
+2. Run `npm install` to install dependencies
+3. Run `npm start` or `npm run dev` to start the server
+4. The server will be running on `http://localhost:3000`
+5. Use the API endpoints to search for recordings, retrieve recording details, and find related songs
 
 
 ## Built With
