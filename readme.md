@@ -1,5 +1,6 @@
 ## Simple Sample Playlist API
 
+This is a simple API that allows users to search for recordings, retrieve recording details, and find related songs. It uses the MusicBrainz API to retrieve recording information and relationships between songs.
 
 ## API Endpoints
 
